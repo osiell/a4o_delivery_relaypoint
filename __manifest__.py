@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # This file is part of an Adiczion's Module.
 # The COPYRIGHT and LICENSE files at the top level of this repository
 # contains the full copyright notices and license terms.
@@ -18,15 +17,14 @@
 Module Delivery Relay Points
 ============================
 
-[Add the description of your module here].
+Does nothing alone, adds the management of relay points to the transport
+modules that depend on it.
 
     """,
     'data': [
         'security/objects_security.xml',
         'security/ir.model.access.csv',
         'wizard/select_relaypoint_views.xml',
-        #'data/data_for_your_module.xml',
-        #'views/view_of_your_module.xml',
     ],
     'images': ['static/description/banner.png'],
     'test': [],

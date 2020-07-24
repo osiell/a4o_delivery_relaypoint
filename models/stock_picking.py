@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # This file is part of an Adiczion's Module.
 # The COPYRIGHT and LICENSE files at the top level of this repository
 # contains the full copyright notices and license terms.
@@ -10,10 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
-    
-    #relaypoint = fields.Many2one(
-    #    string='Relay Point', comodel_name='delivery.carrier.relaypoint')
-    
+
     @api.multi
     def action_get_relaypoint(self):
         context = dict(self.env.context or {})
@@ -30,7 +26,8 @@ class StockPicking(models.Model):
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'delivery.carrier.relaypoint',
-            'view_id': self.env.ref('a4o_delivery_relaypoint.select_relaypoint_view_form').id,
+            'view_id': self.env.ref(
+                'a4o_delivery_relaypoint.select_relaypoint_view_form').id,
             'type': 'ir.actions.act_window',
             'context': context,
             'target': 'new'

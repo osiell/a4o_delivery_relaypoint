@@ -1,6 +1,7 @@
 # Delivery Relay Point (a4o)
 
-[Add the description of your module here].
+Does nothing alone, adds the management of relay points to the transport
+modules that depend on it.
 
 ## Installing
 
@@ -10,7 +11,7 @@ See INSTALL
 
 If you encounter any problems with this module, please don't hesitate to ask
 questions on the Adiczion support mail address :
-  
+
   support@adiczion.net
 
 ## License

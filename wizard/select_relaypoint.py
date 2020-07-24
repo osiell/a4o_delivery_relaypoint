@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # This file is part of an Adiczion's Module.
 # The COPYRIGHT and LICENSE files at the top level of this repository
 # contains the full copyright notices and license terms.
@@ -11,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class RelayPointLine(models.TransientModel):
     _name = 'delivery.carrier.relaypoint.line'
     _description = 'Delivery Relay Point Line'
-    
+
     name = fields.Char(index=True)
     street = fields.Char()
     street2 = fields.Char()
@@ -23,7 +22,7 @@ class RelayPointLine(models.TransientModel):
     hours = fields.Text(string='Hours', help='Office hours.')
     relay_id = fields.Many2one(
         'delivery.carrier.relaypoint', string='Relay Point')
-    
+
     @api.multi
     def set_destination(self):
         context = dict(self.env.context or {})
