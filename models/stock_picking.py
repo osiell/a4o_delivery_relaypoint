@@ -7,6 +7,15 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+class StockQuantPackage(models.Model):
+    _inherit = "stock.quant.package"
+
+    mandatory_weight = fields.Boolean(string='Mandatory Shipping Weight',
+        compute='_compute_mandatory_weight')
+
+    def _compute_mandatory_weight(self):
+        self.mandatory_weight = False
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
