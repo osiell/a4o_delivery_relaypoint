@@ -2,6 +2,7 @@
 # The COPYRIGHT and LICENSE files at the top level of this repository
 # contains the full copyright notices and license terms.
 from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -27,24 +28,37 @@ class RelayPointLine(models.TransientModel):
     def set_destination(self):
         context = dict(self.env.context or {})
         partner = self.relay_id.address.parent_id or self.relay_id.address
-        # Build the delivery address ...
-        addr = {
-            'parent_id': partner.id,
-            'type': 'delivery',
-            'name': self.name,
-            'street': self.street,
-            'street2': self.street2,
-            'zip': self.zip,
-            'city': self.city,
-            'code_relaypoint': self.code_relaypoint,
-            'country_id': self.country_id and self.country_id.id
-            }
+
         picking_id = self.env.context.get('picking_id')
-        if picking_id:
+        if not picking_id:
+            raise UserError(_("No picking to define the address!"))
+        picking = self.env['stock.picking'].browse(picking_id)
+
+        # Don't recreate the address if it already exist'
+        address = self.env['res.partner'].search([
+            ('parent_id', '=', partner.id),
+            ('type', '=', 'delivery'),
+            ('code_relaypoint', '=', self.code_relaypoint),
+            ('active', 'in', [True, False]),
+            ])
+        if not address:
+            # Build the delivery address ...
+            addr = {
+                'parent_id': partner.id,
+                'type': 'delivery',
+                'name': self.name,
+                'street': self.street,
+                'street2': self.street2,
+                'zip': self.zip,
+                'city': self.city,
+                'code_relaypoint': self.code_relaypoint,
+                'country_id': self.country_id and self.country_id.id,
+                'active': False,
+                }
             address = self.env['res.partner'].create(addr)
-            # Set the delivery address to the picking
-            picking = self.env['stock.picking'].browse(picking_id)
-            picking.write({'partner_id': address.id})
+
+        # Set the delivery address to the picking
+        picking.write({'partner_id': address.id})
 
 
 class SelectRelayPoint(models.TransientModel):
