@@ -20,6 +20,7 @@ class RelayPointLine(models.TransientModel):
     country_id = fields.Many2one(
         'res.country', string='Country', ondelete='restrict')
     code_relaypoint = fields.Char()
+    point_type = fields.Char(index=True, size=3)
     hours = fields.Text(string='Hours', help='Office hours.')
     relay_id = fields.Many2one(
         'delivery.carrier.relaypoint', string='Relay Point')
@@ -52,6 +53,7 @@ class RelayPointLine(models.TransientModel):
                 'zip': self.zip,
                 'city': self.city,
                 'code_relaypoint': self.code_relaypoint,
+                'point_type': self.point_type or False,
                 'country_id': self.country_id and self.country_id.id,
                 'active': False,
                 }
@@ -98,5 +100,5 @@ class SelectRelayPoint(models.TransientModel):
             'type': 'ir.actions.act_window',
             'res_id': self.id,
             'context': context,
-            'target': 'new'
+            'target': 'new',
         }

@@ -11,3 +11,4 @@ class Partner(models.Model):
     _inherit = "res.partner"
 
     code_relaypoint = fields.Char(index=True)
+    point_type = fields.Char(index=True)
