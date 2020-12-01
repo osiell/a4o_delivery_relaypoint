@@ -25,7 +25,6 @@ class RelayPointLine(models.TransientModel):
     relay_id = fields.Many2one(
         'delivery.carrier.relaypoint', string='Relay Point')
 
-    @api.multi
     def set_destination(self):
         context = dict(self.env.context or {})
         partner = self.relay_id.address.parent_id or self.relay_id.address

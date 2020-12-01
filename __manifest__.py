@@ -3,7 +3,7 @@
 # contains the full copyright notices and license terms.
 {
     'name': 'Module Delivery Relay Points',
-    'version': '12.0.4',
+    'version': '13.0.1',
     'author': 'Adiczion SARL',
     'category': 'Adiczion',
     'license': 'AGPL-3',
@@ -24,6 +24,7 @@ modules that depend on it.
     'data': [
         'security/objects_security.xml',
         'security/ir.model.access.csv',
+        'views/stock_picking_views.xml',
         'wizard/select_relaypoint_views.xml',
     ],
     'images': ['static/description/banner.png'],

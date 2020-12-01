@@ -19,7 +19,29 @@ class StockQuantPackage(models.Model):
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    @api.multi
+    def _get_delivery_relaypoint(self):
+        if hasattr(self,
+                '%s_get_delivery_relaypoint' % self.carrier_id.delivery_type):
+            return getattr(self,
+                '%s_get_delivery_relaypoint' % self.carrier_id.delivery_type)()
+        return False
+
+    @api.depends('carrier_id')
+    def compute_delivery_relaypoint(self):
+        for picking in self:
+            picking.relaypoint_delivery = picking._get_delivery_relaypoint()
+
+    relaypoint_delivery = fields.Boolean('Delivery to a relay point ?',
+        compute='compute_delivery_relaypoint')
+
+    def button_validate(self):
+        self.ensure_one()
+        if (self.relaypoint_delivery and not self.partner_id.code_relaypoint):
+            raise UserError(_("You cannot choose a relay point delivery "
+                "without choosing a relay point! Go to the 'additional info' "
+                "page to select the relay point!"))
+        super().button_validate()
+
     def action_get_relaypoint(self):
         context = dict(self.env.context or {})
         # Get addresses
