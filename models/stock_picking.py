@@ -41,7 +41,7 @@ class StockPicking(models.Model):
             raise UserError(_("You cannot choose a relay point delivery "
                 "without choosing a relay point! Go to the 'additional info' "
                 "page to select the relay point!"))
-        super().button_validate()
+        return super().button_validate()
 
     def action_get_relaypoint(self):
         context = dict(self.env.context or {})
