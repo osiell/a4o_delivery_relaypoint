@@ -42,6 +42,8 @@ class StockPicking(models.Model):
 
     relaypoint_delivery = fields.Boolean('Delivery to a relay point ?',
         compute='compute_delivery_relaypoint')
+    original_partner_id = fields.Many2one('res.partner', 'Original Partner',
+        readonly=True)
 
     def button_validate(self):
         self.ensure_one()
