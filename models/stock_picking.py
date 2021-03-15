@@ -74,3 +74,13 @@ class StockPicking(models.Model):
             'context': context,
             'target': 'new'
         }
+
+    @api.depends('sale_id')
+    def get_delivery_price(self):
+        if not self.sale_id:
+            return 0.0
+        return sum([
+                l.price_total
+                for l in self.sale_id.order_line
+                if l.is_delivery
+                ])
