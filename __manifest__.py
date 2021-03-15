@@ -3,7 +3,7 @@
 # contains the full copyright notices and license terms.
 {
     'name': 'Module Delivery Relay Points',
-    'version': '13.0.2',
+    'version': '13.0.3',
     'author': 'Adiczion SARL',
     'category': 'Adiczion',
     'license': 'AGPL-3',
