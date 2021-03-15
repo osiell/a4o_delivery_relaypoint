@@ -14,8 +14,16 @@ class StockQuantPackage(models.Model):
     mandatory_weight = fields.Boolean(string='Mandatory Shipping Weight',
         compute='_compute_mandatory_weight')
 
+    @api.depends('packaging_id')
     def _compute_mandatory_weight(self):
-        self.mandatory_weight = False
+        result = False
+        if self.packaging_id:
+            method_name = ('%s_compute_mandatory_weight'
+                % self.packaging_id.package_carrier_type)
+            if hasattr(self, method_name):
+                result = getattr(self, method_name)()
+        self.mandatory_weight = result
+
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
