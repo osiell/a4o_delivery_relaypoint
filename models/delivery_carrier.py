@@ -9,6 +9,17 @@ _logger = logging.getLogger(__name__)
 
 class DeliveryCarrier(models.Model):
     _inherit = 'delivery.carrier'
+    
+    @api.model
+    def _print_document(self, label, printer):
+        """ Print a label, do not return the document file """
+        if not printer:
+            log_message = (_("No direct printer defined! Please check the "
+                    "configuration of your delivery method."))
+            self.message_post(body=log_message)
+            return False
+        return printer.print_document(self, label,
+            doc_format='pdf', action='server', tray='Main')
 
     def select_relaypoint(self, pickings):
         """Call the method to select relay points of the selected carrier"""
