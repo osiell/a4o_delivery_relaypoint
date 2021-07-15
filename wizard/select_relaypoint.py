@@ -56,10 +56,16 @@ class RelayPointLine(models.TransientModel):
                 'country_id': self.country_id and self.country_id.id,
                 'active': False,
                 }
+            if not picking.carrier_id.hide_partner:
+                addr.update({'active': True})
             address = self.env['res.partner'].create(addr)
 
-        # Set the delivery address to the picking
-        picking.write({'partner_id': address.id})
+        # Set the delivery address to the picking and backup the original
+        # address
+        values = {'partner_id': address.id}
+        if not picking.partner_id.code_relaypoint:
+            values.update({'original_partner_id': picking.partner_id.id})
+        picking.write(values)
 
 
 class SelectRelayPoint(models.TransientModel):
