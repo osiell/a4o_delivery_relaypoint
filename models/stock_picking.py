@@ -16,13 +16,14 @@ class StockQuantPackage(models.Model):
 
     @api.depends('package_type_id')
     def _compute_mandatory_weight(self):
-        result = False
-        if self.packaging_id:
-            method_name = ('%s_compute_mandatory_weight'
-                % self.packaging_id.package_carrier_type)
-            if hasattr(self, method_name):
-                result = getattr(self, method_name)()
-        self.mandatory_weight = result
+        for record in self:
+            result = False
+            if record.package_type_id:
+                method_name = ('%s_compute_mandatory_weight'
+                    % record.package_type_id.package_carrier_type)
+                if hasattr(record, method_name):
+                    result = getattr(record, method_name)()
+            record.mandatory_weight = result
 
 
 class StockPicking(models.Model):
@@ -77,10 +78,11 @@ class StockPicking(models.Model):
 
     @api.depends('sale_id')
     def get_delivery_price(self):
-        if not self.sale_id:
-            return 0.0
-        return sum([
-                l.price_total
-                for l in self.sale_id.order_line
-                if l.is_delivery
-                ])
+        for record in self:
+            if not record.sale_id:
+                return 0.0
+            return sum([
+                    l.price_total
+                    for l in record.sale_id.order_line
+                    if l.is_delivery
+                    ])

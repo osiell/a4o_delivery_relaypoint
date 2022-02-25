@@ -13,10 +13,11 @@ class ChooseDeliveryPackage(models.TransientModel):
     
     @api.depends('delivery_package_type_id')
     def _compute_mandatory_weight(self):
-        result = False
-        if self.delivery_packaging_id:
-            method_name = ('%s_compute_mandatory_weight'
-                % self.delivery_packaging_id.package_carrier_type)
-            if hasattr(self, method_name):
-                result = getattr(self, method_name)()
-        self.mandatory_weight = result
+        for record in self:
+            result = False
+            if record.delivery_package_type_id:
+                method_name = ('%s_compute_mandatory_weight'
+                    % record.delivery_package_type_id.package_carrier_type)
+                if hasattr(record, method_name):
+                    result = getattr(record, method_name)()
+            record.mandatory_weight = result
