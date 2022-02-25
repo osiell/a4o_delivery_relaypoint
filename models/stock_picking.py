@@ -14,7 +14,7 @@ class StockQuantPackage(models.Model):
     mandatory_weight = fields.Boolean(string='Mandatory Shipping Weight',
         compute='_compute_mandatory_weight')
 
-    @api.depends('packaging_id')
+    @api.depends('package_type_id')
     def _compute_mandatory_weight(self):
         result = False
         if self.packaging_id:

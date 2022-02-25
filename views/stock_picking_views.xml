@@ -8,7 +8,7 @@ contains the full copyright notices and license terms. -->
         <field name="model">stock.quant.package</field>
         <field name="inherit_id" ref="delivery.view_quant_package_weight_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='packaging_id']" position="before">
+            <xpath expr="//field[@name='package_type_id']" position="before">
                 <field name="mandatory_weight" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='shipping_weight']" position="attributes">

@@ -11,7 +11,7 @@ class ChooseDeliveryPackage(models.TransientModel):
     mandatory_weight = fields.Boolean('Mandatory weight',
         compute='_compute_mandatory_weight')
     
-    @api.depends('delivery_packaging_id')
+    @api.depends('delivery_package_type_id')
     def _compute_mandatory_weight(self):
         result = False
         if self.delivery_packaging_id:
