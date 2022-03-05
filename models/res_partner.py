@@ -12,3 +12,9 @@ class Partner(models.Model):
 
     code_relaypoint = fields.Char(index=True)
     point_type = fields.Char(index=True)
+    latitude = fields.Char(string='Latitude')
+    longitude = fields.Char(string='Longitude')
+
+    def update_set_coordinates(self):
+        # [TODO] Set the coordinate from the address data.
+        pass

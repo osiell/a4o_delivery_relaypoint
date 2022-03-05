@@ -26,23 +26,22 @@ class StockQuantPackage(models.Model):
             record.mandatory_weight = result
 
 
+class StockMove(models.Model):
+    _inherit = "stock.move"
+
+    def _get_new_picking_values(self):
+        result = super()._get_new_picking_values()
+        if result:
+            original = (self.group_id
+                and self.group_id.sale_id
+                and self.group_id.sale_id.original_partner_shipping_id)
+            result.update({'original_partner_id': original.id})
+        return result
+
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    def _get_delivery_relaypoint(self):
-        if hasattr(self,
-                '%s_get_delivery_relaypoint' % self.carrier_id.delivery_type):
-            return getattr(self,
-                '%s_get_delivery_relaypoint' % self.carrier_id.delivery_type)()
-        return False
-
-    @api.depends('carrier_id')
-    def compute_delivery_relaypoint(self):
-        for picking in self:
-            picking.relaypoint_delivery = picking._get_delivery_relaypoint()
-
-    relaypoint_delivery = fields.Boolean('Delivery to a relay point ?',
-        compute='compute_delivery_relaypoint')
     original_partner_id = fields.Many2one('res.partner', 'Original Partner',
         readonly=True)
 

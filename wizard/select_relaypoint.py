@@ -24,9 +24,10 @@ class RelayPointLine(models.TransientModel):
     hours = fields.Text(string='Hours', help='Office hours.')
     relay_id = fields.Many2one(
         'delivery.carrier.relaypoint', string='Relay Point')
+    latitude = fields.Char(string='Latitude')
+    longitude = fields.Char(string='Longitude')
 
     def set_destination(self):
-        context = dict(self.env.context or {})
         partner = self.relay_id.address.parent_id or self.relay_id.address
 
         picking_id = self.env.context.get('picking_id')
@@ -83,7 +84,10 @@ class SelectRelayPoint(models.TransientModel):
     def get_relaypoint(self):
         picking = self.env['stock.picking'].browse(
             self.env.context['picking_id'])
-        relaypoints = picking.carrier_id.select_relaypoint([picking])
+        relaypoints = picking.carrier_id.select_relaypoint(**{
+                'partner': picking.partner_id,
+                'weight': picking.shipping_weight,
+                })
         points = []
         for point in relaypoints:
             value = dict(point.get('address'))
