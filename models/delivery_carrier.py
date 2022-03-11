@@ -10,13 +10,15 @@ _logger = logging.getLogger(__name__)
 class DeliveryCarrier(models.Model):
     _inherit = 'delivery.carrier'
     
-    @api.depends('delivery_type')
+    @api.depends('delivery_type','relaypoint_delivery')
     def _compute_delivery_relaypoint(self):
-        for record in self:
-            delivery = record.delivery_type
-            if hasattr(record, '%s_get_delivery_relaypoint' % delivery):
-                record.relaypoint_delivery = getattr(record,
+        for carrier in self:
+            relaypoint_delivery = False
+            delivery = carrier.delivery_type
+            if hasattr(carrier, '%s_get_delivery_relaypoint' % delivery):
+                relaypoint_delivery = getattr(carrier,
                     '%s_get_delivery_relaypoint' % delivery)()
+            carrier.relaypoint_delivery = relaypoint_delivery
 
     relaypoint_delivery = fields.Boolean('Delivery to a relay point ?',
         compute='_compute_delivery_relaypoint', store=False)

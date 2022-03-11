@@ -41,7 +41,9 @@ class StockMove(models.Model):
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
-
+    
+    relaypoint_delivery = fields.Boolean(
+        related='carrier_id.relaypoint_delivery', readonly=True)
     original_partner_id = fields.Many2one('res.partner', 'Original Partner',
         readonly=True)
 
