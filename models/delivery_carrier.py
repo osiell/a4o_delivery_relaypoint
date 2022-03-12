@@ -2,6 +2,7 @@
 # The COPYRIGHT and LICENSE files at the top level of this repository
 # contains the full copyright notices and license terms.
 from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -27,10 +28,8 @@ class DeliveryCarrier(models.Model):
     def _print_document(self, label, printer):
         """ Print a label, do not return the document file """
         if not printer:
-            log_message = (_("No direct printer defined! Please check the "
+            raise UserError(_("No direct printer defined! Please check the "
                     "configuration of your delivery method."))
-            self.message_post(body=log_message)
-            return False
         return printer.print_document(self, label,
             doc_format='pdf', action='server', tray='Main')
 
