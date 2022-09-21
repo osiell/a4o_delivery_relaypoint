@@ -63,3 +63,17 @@ class DeliveryCarrier(models.Model):
             address_id = Partner.create(address)
         return address_id
 
+    def partner_in_dom_tom(self, partner_id):
+        '''
+        Indicates if the partner is located in French overseas departments
+        and territories.
+        '''
+        Countries = self.env["res.country.group"]
+        dom_tom = Countries.search(
+            [('name', '=', 'DOM-TOM')], limit=1)
+        if (partner_id
+                and partner_id.country_id
+                and partner_id.country_id.id in dom_tom.country_ids.ids):
+            return True
+        return False
+
