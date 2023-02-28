@@ -25,6 +25,7 @@ modules that depend on it.
         'security/objects_security.xml',
         'security/ir.model.access.csv',
         'views/stock_picking_views.xml',
+        'views/delivery_views.xml',
         'wizard/choose_delivery_package_views.xml',
         'wizard/select_relaypoint_views.xml',
     ],
