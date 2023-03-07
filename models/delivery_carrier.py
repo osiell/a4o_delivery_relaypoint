@@ -11,10 +11,8 @@ _logger = logging.getLogger(__name__)
 class DeliveryCarrier(models.Model):
     _inherit = 'delivery.carrier'
     
-    sender_id = fields.Many2one('res.partner', 'Sender',
-        default=lambda self: self.env.company.partner_id,
-        help="Select the partner that will be used as sender when requesting "
-        "a label from the carrier.")
+    relaypoint_delivery = fields.Boolean('Delivery to a relay point ?',
+        compute='_compute_delivery_relaypoint', store=False)
         
     @api.depends('delivery_type', 'relaypoint_delivery')
     def _compute_delivery_relaypoint(self):
@@ -25,9 +23,6 @@ class DeliveryCarrier(models.Model):
                 relaypoint_delivery = getattr(carrier,
                     '%s_get_delivery_relaypoint' % delivery)()
             carrier.relaypoint_delivery = relaypoint_delivery
-
-    relaypoint_delivery = fields.Boolean('Delivery to a relay point ?',
-        compute='_compute_delivery_relaypoint', store=False)
 
     @api.model
     def _print_document(self, label, printer):
