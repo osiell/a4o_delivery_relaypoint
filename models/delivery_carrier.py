@@ -10,7 +10,9 @@ _logger = logging.getLogger(__name__)
 
 class DeliveryCarrier(models.Model):
     _inherit = 'delivery.carrier'
-    
+
+    hide_partner = fields.Boolean("Hide Relaypoint Address", default=True,
+        help="Hide the relaypoint address on the partner when created")
     relaypoint_delivery = fields.Boolean('Delivery to a relay point ?',
         compute='_compute_delivery_relaypoint', store=False)
         

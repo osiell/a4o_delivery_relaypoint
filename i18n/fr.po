@@ -202,6 +202,16 @@ msgid "Point Type"
 msgstr "Type de point"
 
 #. module: a4o_delivery_relaypoint
+#: model:ir.model.fields,field_description:a4o_delivery_relaypoint.field_delivery_carrier__hide_partner
+msgid "Hide Relaypoint Address"
+msgstr "Cacher l'adresse Point Relais"
+
+#. module: a4o_delivery_relaypoint
+#: model:ir.model.fields,help:a4o_delivery_chronopost.field_delivery_carrier__hide_partner
+msgid "Hide the relaypoint address on the partner when created"
+msgstr "Cacher l'adresse dans le partenaire à la création d'un point relais"
+
+#. module: a4o_delivery_relaypoint
 #: model:ir.model.fields,field_description:a4o_delivery_relaypoint.field_delivery_carrier_relaypoint__address
 msgid "Reference address"
 msgstr "Adresse de référence"
