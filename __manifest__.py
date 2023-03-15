@@ -2,8 +2,8 @@
 # The COPYRIGHT and LICENSE files at the top level of this repository
 # contains the full copyright notices and license terms.
 {
-    'name': 'Module Delivery Relay Points',
-    'version': '15.1.3',
+    'name': 'Delivery Relay Points',
+    'version': '15.1.4',
     'author': 'Adiczion SARL',
     'category': 'Adiczion',
     'license': 'AGPL-3',
@@ -14,8 +14,8 @@
     'demo': [],
     'website': 'http://adiczion.com',
     'description': """
-Module Delivery Relay Points
-============================
+Delivery Relay Points
+=====================
 
 Does nothing alone, adds the management of relay points to the transport
 modules that depend on it.
