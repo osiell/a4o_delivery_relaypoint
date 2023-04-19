@@ -3,7 +3,7 @@
 # contains the full copyright notices and license terms.
 {
     'name': 'Delivery Relay Points',
-    'version': '15.1.4',
+    'version': '16.0.1.0.0',
     'author': 'Adiczion SARL',
     'category': 'Adiczion',
     'license': 'AGPL-3',
